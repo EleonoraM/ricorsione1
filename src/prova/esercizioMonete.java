@@ -6,6 +6,9 @@ import java.util.List;
 public class esercizioMonete {
 	int combo=0;
 	private List<Integer> monete= new ArrayList<Integer>();
+	List<Combinazione> combinazioni = new ArrayList<Combinazione>();
+
+	
 	public esercizioMonete(int a,int b,int c,int d,int e){
 		monete.add(a);
 		monete.add(b);
@@ -96,10 +99,53 @@ public class esercizioMonete {
 	
 	public static void main(String[] args) {
 		
-		esercizioMonete es= new esercizioMonete(1,3,7,31,45);
-		es.contaSoluzioni(10);
+		esercizioMonete es= new esercizioMonete(2,3,7,31,45);
+		es.trovaCombinazioni(111) ;
+		//es.contaSoluzioni(10);
 		/*es.contaSoluzioni (10);*/
 		//es.scegliMoltiplicatore(1,120);
 		//es.creaCombinazione(120);
 
-	}}
+	}
+
+
+	private void trovaCombinazioni(int totale) {
+
+		int step = 0 ;
+		Combinazione c = new Combinazione() ;
+		
+		ricorsiva(step, this.monete, c, totale) ;
+		
+		System.out.println(combinazioni.size()) ;
+		
+	}
+	
+	private void ricorsiva( int step, List<Integer> monete, Combinazione c, int totale) {
+		
+		int somma = c.getSomma(monete) ;
+		
+		if(step==monete.size()) {
+			// caso terminale
+			if(somma==totale) {
+				System.out.println(c); 
+				combinazioni.add(new Combinazione(c)) ;
+			}
+			
+		} else {
+			// caso normale
+			
+			for( int quante = 0 ; somma+ quante * monete.get(step) <= totale ; quante++ ) {
+				
+				// "provo" a mettere "quante" monete
+				c.aggiungiValore(quante);
+				ricorsiva(step+1, monete, c, totale) ;
+				c.rimuoviValore(step);
+			}
+
+		}
+			
+		
+		
+	}
+	
+}

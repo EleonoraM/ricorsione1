@@ -6,30 +6,25 @@ import java.util.List;
 public class Combinazione {
 
 	private List<Integer> valori;
-	private int somma ;
 
 	public Combinazione (){
 		valori = new ArrayList<Integer>();
-		somma=0;
 	}
-
-	public boolean sommaOK (){
-		somma+=valori.get(0)*1;
-		somma+=valori.get(1)*3;
-		somma+=valori.get(2)*7;
-		somma+=valori.get(3)*31;
-		somma+=valori.get(4)*45;
-		if (somma!=120)
-			return false;
-		return true;
+	
+	public Combinazione(Combinazione altro) {
+		// per clonare una Combinazione
+		
+		valori = new ArrayList<>( altro.getValori() ) ;
+		
 	}
+	
 	public void aggiungiValore (int i){
 		if (valori.size()<=5)
 			valori.add(i);
 		else throw new RuntimeException();
 	}
-	public void rimuoviValore (int i){
-		valori.remove(i);
+	public void rimuoviValore (int pos){
+		valori.remove(pos);
 	}
 
 	@Override
@@ -41,8 +36,12 @@ public class Combinazione {
 		return valori;
 	}
 
-	public int getSomma() {
-		return somma;
+	public int getSomma(List<Integer> monete) {
+		int somma = 0 ;
+		for(int i=0; i<valori.size(); i++) {
+			somma += valori.get(i) * monete.get(i) ;
+		}
+		return somma ;
 	}
 
 	@Override
